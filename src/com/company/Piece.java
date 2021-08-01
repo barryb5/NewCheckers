@@ -14,5 +14,5 @@ public abstract class Piece { Board board;
 
     public abstract String print();
 
-    public abstract boolean move(int initialX, int initialY, int finalX, int finalY);
+    public abstract boolean move(int initRow, int initCol, int finalRow, int finalCol);
 }

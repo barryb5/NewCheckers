@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class King extends Piece{
 
     public King(Board board, Player.PlayerType type) {
@@ -16,61 +18,69 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean move(int initialX, int initialY, int finalX, int finalY) {
-        boolean isWhite = false;
-
-        if (Board.checkerBoard[initialX][initialY].getPlayerType() == Player.PlayerType.White) {
-            isWhite = true;
-        }
-
-        if (isWhite == true) {
-            if (((finalY + 1) == initialY || (finalY - 1) == initialY) && ((finalX + 1) == initialX || (finalX - 1) == initialX)) {
-                // Moves the piece
-                Board.checkerBoard[finalX][finalY] = Board.checkerBoard[initialX][initialY];
-                Board.checkerBoard[initialX][initialY] = null;
-                return true;
-            } else if (((finalY + 2) == initialY || (finalY - 2) == initialY) && ((finalX + 2) == initialX || (finalX - 2) == initialX)) {
-                // Taking a piece
-                if (Board.checkerBoard[(finalX + initialX) / 2][(finalY + initialY) / 2].getPlayerType() != Player.PlayerType.Black) {
-                    // If there's no piece to take
-                    System.out.println("No piece to take");
-                    return false;
-                }
-                else {
-                    // Moves the piece and removes the opponent piece
-                    Board.checkerBoard[finalX][finalY] = Board.checkerBoard[initialX][initialY];
-                    Board.checkerBoard[(finalX + initialX) / 2][(finalY + initialY) / 2] = null;
-                    Board.checkerBoard[initialX][initialY] = null;
-                    return true;
-                }
-            }
-        } else {
-            // Piece is black
-            if (((finalY + 1) == initialY || (finalY - 1) == initialY) && ((finalX + 1) == initialX || (finalX - 1) == initialX)) {
-                // Moves the piece
-                Board.checkerBoard[finalX][finalY] = Board.checkerBoard[initialX][initialY];
-                Board.checkerBoard[initialX][initialY] = null;
-                return true;
-            } else if (((finalY + 2) == initialY || (finalY - 2) == initialY) && ((finalX + 2) == initialX || (finalX - 2) == initialX)) {
-                // Taking a piece
-                if (Board.checkerBoard[(finalX + initialX) / 2][(finalY + initialY) / 2].getPlayerType() != Player.PlayerType.White) {
-                    // If there's no piece to take
-                    System.out.println("No piece to take");
-                    return false;
-                }
-                else {
-                    // Moves the piece and removes the opponent piece
-                    Board.checkerBoard[finalX][finalY] = Board.checkerBoard[initialX][initialY];
-                    Board.checkerBoard[(finalX + initialX) / 2][(finalY + initialY) / 2] = null;
-                    Board.checkerBoard[initialX][initialY] = null;
-                    return true;
-                }
-            } else {
-                System.out.println("Not a viable move");
+    public boolean move(int initRow, int initCol, int finalRow, int finalCol) {
+        if (((finalCol + 1) == initCol || (finalCol - 1) == initCol) && ((finalRow + 1) == initRow || (finalRow - 1) == initRow)) {
+            // Moves the piece
+            Board.checkerBoard[finalRow][finalCol] = Board.checkerBoard[initRow][initCol];
+            Board.checkerBoard[initRow][initCol] = null;
+            return true;
+        } else if (((finalCol + 2) == initCol || (finalCol - 2) == initCol) && ((finalRow + 2) == initRow || (finalRow - 2) == initRow)) {
+            // Taking a piece
+            Player.PlayerType opposite = (Board.checkerBoard[initRow][initCol].getPlayerType() == Player.PlayerType.White) ? Player.PlayerType.White : Player.PlayerType.Black;
+            if (Board.checkerBoard[(finalRow + initRow) / 2][(finalCol + initCol) / 2].getPlayerType() != opposite) {
+                // If there's no piece to take
+                System.out.println("No piece to take");
                 return false;
             }
+            else {
+                // Moves the piece and removes the opponent piece
+                Board.checkerBoard[finalRow][finalCol] = Board.checkerBoard[initRow][initCol];
+                Board.checkerBoard[(finalRow + initRow) / 2][(finalCol + initCol) / 2] = null;
+                Board.checkerBoard[initRow][initCol] = null;
+                return true;
+            }
         }
-
         return false;
+    }
+
+    public ArrayList<Integer> futureMoves(int initRow, int initCol) {
+        ArrayList<Integer> possibleMoves = new ArrayList<Integer>(0);
+        // Checks left side
+        if (Board.checkerBoard[initCol - 1][initRow + 1] == null) {
+            possibleMoves.add(initCol - 1);
+            possibleMoves.add(initRow + 1);
+        }
+        if (Board.checkerBoard[initCol - 1][initRow - 1] == null) {
+            possibleMoves.add(initCol - 1);
+            possibleMoves.add(initRow - 1);
+        }
+        // Checks right side
+        if (Board.checkerBoard[initCol + 1][initRow + 1] == null) {
+            possibleMoves.add(initCol + 1);
+            possibleMoves.add(initRow + 1);
+        }
+        if (Board.checkerBoard[initCol - 1][initRow - 1] == null) {
+            possibleMoves.add(initCol - 1);
+            possibleMoves.add(initRow - 1);
+        }
+        // Checks left side
+        if (Board.checkerBoard[initCol - 2][initRow + 1] == null) {
+            possibleMoves.add(initCol - 2);
+            possibleMoves.add(initRow + 2);
+        }
+        if (Board.checkerBoard[initCol - 2][initRow - 1] == null) {
+            possibleMoves.add(initCol - 2);
+            possibleMoves.add(initRow - 2);
+        }
+        // Checks right side
+        if (Board.checkerBoard[initCol + 2][initRow + 1] == null) {
+            possibleMoves.add(initCol + 2);
+            possibleMoves.add(initRow + 2);
+        }
+        if (Board.checkerBoard[initCol - 2][initRow - 1] == null) {
+            possibleMoves.add(initCol - 2);
+            possibleMoves.add(initRow - 2);
+        }
+        return possibleMoves;
     }
 }

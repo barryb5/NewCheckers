@@ -7,8 +7,8 @@ public class Main {
 
         int turnNum = 0;
         game.init();
-//        while(!game.gameOver())
-//            turnNum = game.runOnce(turnNum);
-
+        while(!game.gameOver()) {
+            turnNum = game.runOnce(turnNum);
+        }
     }
 }

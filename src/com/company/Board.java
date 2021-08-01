@@ -10,32 +10,32 @@ public class Board {
 
     public void printBoard() {
         System.out.print("i ");
-        for (int i = 0; i < size; ++i)
-            System.out.print("  " + i + " ");
+        for (int r = 0; r < size; ++r)
+            System.out.print("  " + r + " ");
         System.out.println();
         System.out.print("  -");
-        for (int i = 0; i < size; ++i)
+        for (int r = 0; r < size; ++r)
             System.out.print(" - -");
         System.out.println();
-        for (int i = 0; i < size; ++i) {
-            System.out.print(i + " | ");
-            for (int j = 0; j < size; ++j)
+        for (int r = 0; r < size; ++r) {
+            System.out.print(r + " | ");
+            for (int c = 0; c < size; ++c)
             {
-                if (checkerBoard[i][j] != null)
-                    System.out.print(checkerBoard[i][j].print() + " | ");
+                if (checkerBoard[r][c] != null)
+                    System.out.print(checkerBoard[r][c].print() + " | ");
                 else
                     System.out.print("  | ");
             }
             System.out.println();
-            if (i != size - 1)
+            if (r != size - 1)
                 System.out.print("  |");
             else
                 System.out.print("  -");
-            for (int j = 0; j < size; ++j) {
+            for (int c = 0; c < size; ++c) {
                 System.out.print(" - ");
-                if (i == size - 1)
+                if (r == size - 1)
                     System.out.print("-");
-                else if (j == size - 1)
+                else if (c == size - 1)
                     System.out.print("|");
                 else
                     System.out.print("+");
@@ -45,35 +45,35 @@ public class Board {
     }
 
     public void resetBoard() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (i == 0 || i == 2) {
-                    if (j % 2 != 0) {
-                        checkerBoard[i][j] = new Pawn(this, Player.PlayerType.White);
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (r == 0 || r == 2) {
+                    if (c % 2 != 0) {
+                        checkerBoard[r][c] = new Pawn(this, Player.PlayerType.White);
                     }
-                } else if (i == 1) {
-                    if (j % 2 == 0) {
-                        checkerBoard[i][j] = new Pawn(this, Player.PlayerType.White);
+                } else if (r == 1) {
+                    if (c % 2 == 0) {
+                        checkerBoard[r][c] = new Pawn(this, Player.PlayerType.White);
                     }
-                } else if (i == 6) {
-                    if (j % 2 != 0) {
-                        checkerBoard[i][j] = new Pawn(this, Player.PlayerType.Black);
+                } else if (r == 6) {
+                    if (c % 2 != 0) {
+                        checkerBoard[r][c] = new Pawn(this, Player.PlayerType.Black);
                     }
-                } else if (i == 5 || i == 7) {
-                    if (j % 2 == 0) {
-                        checkerBoard[i][j] = new Pawn(this, Player.PlayerType.Black);
+                } else if (r == 5 || r == 7) {
+                    if (c % 2 == 0) {
+                        checkerBoard[r][c] = new Pawn(this, Player.PlayerType.Black);
                     }
                 } else {
-                    checkerBoard[i][j] = null;
+                    checkerBoard[r][c] = null;
                 }
             }
         }
     }
 
     public void wipeBoard() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                checkerBoard[i][j] = null;
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                checkerBoard[r][c] = null;
             }
         }
     }
@@ -108,30 +108,31 @@ public class Board {
         }
     }
 
-    public boolean move(int initialX, int initialY, int finalX, int finalY, Player player) {
-        if ((initialX < 0) ||
-                (initialY < 0) ||
-                (initialX > size - 1) ||
-                (initialY > size - 1) ||
-                (finalX < 0) ||
-                (finalY < 0) ||
-                (finalX > size - 1) ||
-                (finalY > size - 1) ||
-                (checkerBoard[initialX][initialY] == null) ||
-                (checkerBoard[initialX][initialY].getPlayerType() != player.getPlayerType()) ||
-                (checkerBoard[finalX][finalY] != null)) {
+    public boolean move(int initRow, int initCol, int finalRow, int finalCol, Player player) {
+        if ((initRow < 0) ||
+                (initCol < 0) ||
+                (initRow > size - 1) ||
+                (initCol > size - 1) ||
+                (finalRow < 0) ||
+                (finalCol < 0) ||
+                (finalRow > size - 1) ||
+                (finalCol > size - 1) ||
+                (checkerBoard[initRow][initCol] == null) ||
+                (checkerBoard[initRow][initCol].getPlayerType() != player.getPlayerType()) ||
+                // Thinks there's something in the final spot when there isn't idk why
+                (checkerBoard[finalRow][finalCol] != null)) {
             return false;
         }
 
-        return checkerBoard[initialX][initialY].move(initialX, initialY, finalX, finalY);
+        return checkerBoard[initRow][initCol].move(initRow, initCol, finalRow, finalCol);
     }
 
     public int getScore(Player.PlayerType type) {
         int score = 0;
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (checkerBoard[i][j].getPlayerType() == type) {
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (checkerBoard[r][c].getPlayerType() == type) {
                     score++;
                 }
             }
