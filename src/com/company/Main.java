@@ -3,12 +3,12 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        Run game = new Run();
+        Game game = new Game();
 
-        game.run();
-//        board.wipeBoard();
-//        board.printBoard();
-
+        int turnNum = 0;
+        game.init();
+//        while(!game.gameOver())
+//            turnNum = game.runOnce(turnNum);
 
     }
 }

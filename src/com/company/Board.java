@@ -9,7 +9,7 @@ public class Board {
     }
 
     public void printBoard() {
-        System.out.print("  ");
+        System.out.print("i ");
         for (int i = 0; i < size; ++i)
             System.out.print("  " + i + " ");
         System.out.println();
