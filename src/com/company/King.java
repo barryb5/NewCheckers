@@ -43,6 +43,7 @@ public class King extends Piece{
         return false;
     }
 
+    @Override
     public ArrayList<Integer> futureMoves(int initRow, int initCol) {
         ArrayList<Integer> possibleMoves = new ArrayList<Integer>(0);
         // Checks left side

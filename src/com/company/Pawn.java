@@ -22,17 +22,22 @@ public class Pawn extends Piece {
             boolean isWhite = (Board.checkerBoard[initRow][initCol].getPlayerType() == Player.PlayerType.White) ? true : false;
             boolean returnTrue = false;
 
-            int theoMovedX = (isWhite ? (initRow + 1) : (initRow - 1));
-            int theoJumpX = (isWhite ? (initRow + 2) : (initRow - 2));
+            Player.PlayerType pt = Player.PlayerType.White;
+            if (isWhite == true) {
+                pt = Player.PlayerType.Black;
+            }
 
-            if (((finalCol + 1) == initCol || (finalCol - 1) == initCol) && finalRow == theoMovedX) {
+            int theoMovedRow = (isWhite ? (initRow + 1) : (initRow - 1));
+            int theoJumpedRow = (isWhite ? (initRow + 2) : (initRow - 2));
+
+            if (((finalCol + 1) == initCol || (finalCol - 1) == initCol) && finalRow == theoMovedRow) {
                 // Moves the piece
                 Board.checkerBoard[finalRow][finalCol] = Board.checkerBoard[initRow][initCol];
                 Board.checkerBoard[initRow][initCol] = null;
                 returnTrue = true;
-            } else if (((finalCol + 2) == initCol || (finalCol - 2) == initCol) && finalRow == theoJumpX) {
+            } else if (((finalCol + 2) == initCol || (finalCol - 2) == initCol) && finalRow == theoJumpedRow) {
                 // Taking a piece
-                if (Board.checkerBoard[(finalRow + initRow) / 2][(finalCol + initCol) / 2].getPlayerType() != Player.PlayerType.Black) {
+                if (Board.checkerBoard[(finalRow + initRow) / 2][(finalCol + initCol) / 2].getPlayerType() != pt) {
                     // If there's no piece to take
                     System.out.println("No piece to take");
                     return false;
@@ -58,33 +63,54 @@ public class Pawn extends Piece {
         }
     }
 
+    @Override
     public ArrayList<Integer> futureMoves(int initRow, int initCol) {
         ArrayList<Integer> possibleMoves = new ArrayList<Integer>(0);
         boolean isWhite = (Board.checkerBoard[initRow][initCol].getPlayerType() == Player.PlayerType.White) ? true : false;
+        boolean addedSomething = false;
 
-        int theoMovedX = (isWhite ? (initRow + 1) : (initRow - 1));
-        int theoJumpX = (isWhite ? (initRow + 2) : (initRow - 2));
+        int theoMovedRow = (isWhite ? (initRow + 1) : (initRow - 1));
+        int theoJumpedRow = (isWhite ? (initRow + 2) : (initRow - 2));
 
         // Checks left side
-        if (Board.checkerBoard[initCol - 1][theoMovedX] == null) {
+        if (initCol == 0) {
+            //Avoids checking something that's out of bounds
+        } else if (Board.checkerBoard[theoMovedRow][initCol - 1] == null) {
+            possibleMoves.add(theoMovedRow);
             possibleMoves.add(initCol - 1);
-            possibleMoves.add(theoMovedX);
+            addedSomething = true;
         }
         // Checks right side
-        if (Board.checkerBoard[initCol + 1][theoMovedX] == null) {
+        if (initCol == 7) {
+            //Avoids checking something that's out of bounds
+        } else if (Board.checkerBoard[theoMovedRow][initCol + 1] == null) {
+            possibleMoves.add(theoMovedRow);
             possibleMoves.add(initCol + 1);
-            possibleMoves.add(theoMovedX);
+            addedSomething = true;
         }
         // Checks left side
-        if (Board.checkerBoard[initCol - 2][theoJumpX] == null) {
-            possibleMoves.add(initCol - 2);
+        /*
+        if (initCol <= 1) {
+            //Avoids checking something that's out of bounds
+        } else if (Board.checkerBoard[theoJumpedRow][initCol - 2] == null) {
             possibleMoves.add(theoMovedX);
+            possibleMoves.add(initCol - 2);
+            addedSomething = true;
         }
         // Checks right side
-        if (Board.checkerBoard[initCol + 2][theoJumpX] == null) {
-            possibleMoves.add(initCol + 2);
+        if (initCol >= 6) {
+            //Avoids checking something that's out of bounds
+        } else if (Board.checkerBoard[theoJumpedRow][initCol + 2] == null) {
             possibleMoves.add(theoMovedX);
+            possibleMoves.add(initCol + 2);
+            addedSomething = true;
         }
+         */
+
+        if (addedSomething == false) {
+            possibleMoves.add(20);
+        }
+
         return possibleMoves;
     }
 }

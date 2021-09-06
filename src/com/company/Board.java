@@ -1,8 +1,8 @@
 package com.company;
 
 public class Board {
-    final static int size = 8;
-    final static public Piece[][] checkerBoard = new Piece[size][size];
+    final static int SIZE = 8;
+    final static public Piece[][] checkerBoard = new Piece[SIZE][SIZE];
 
     Board() {
         resetBoard();
@@ -10,16 +10,16 @@ public class Board {
 
     public void printBoard() {
         System.out.print("i ");
-        for (int r = 0; r < size; ++r)
+        for (int r = 0; r < SIZE; ++r)
             System.out.print("  " + r + " ");
         System.out.println();
         System.out.print("  -");
-        for (int r = 0; r < size; ++r)
+        for (int r = 0; r < SIZE; ++r)
             System.out.print(" - -");
         System.out.println();
-        for (int r = 0; r < size; ++r) {
+        for (int r = 0; r < SIZE; ++r) {
             System.out.print(r + " | ");
-            for (int c = 0; c < size; ++c)
+            for (int c = 0; c < SIZE; ++c)
             {
                 if (checkerBoard[r][c] != null)
                     System.out.print(checkerBoard[r][c].print() + " | ");
@@ -27,15 +27,15 @@ public class Board {
                     System.out.print("  | ");
             }
             System.out.println();
-            if (r != size - 1)
+            if (r != SIZE - 1)
                 System.out.print("  |");
             else
                 System.out.print("  -");
-            for (int c = 0; c < size; ++c) {
+            for (int c = 0; c < SIZE; ++c) {
                 System.out.print(" - ");
-                if (r == size - 1)
+                if (r == SIZE - 1)
                     System.out.print("-");
-                else if (c == size - 1)
+                else if (c == SIZE - 1)
                     System.out.print("|");
                 else
                     System.out.print("+");
@@ -45,8 +45,8 @@ public class Board {
     }
 
     public void resetBoard() {
-        for (int r = 0; r < size; r++) {
-            for (int c = 0; c < size; c++) {
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
                 if (r == 0 || r == 2) {
                     if (c % 2 != 0) {
                         checkerBoard[r][c] = new Pawn(this, Player.PlayerType.White);
@@ -71,8 +71,8 @@ public class Board {
     }
 
     public void wipeBoard() {
-        for (int r = 0; r < size; r++) {
-            for (int c = 0; c < size; c++) {
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
                 checkerBoard[r][c] = null;
             }
         }
@@ -83,8 +83,8 @@ public class Board {
         boolean whiteWon = true;
         boolean blackWon = true;
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 if (checkerBoard[i][j] != null) {
                     if ((checkerBoard[i][j].getPlayerType()) == Player.PlayerType.White) {
                         blackWon = false;
@@ -111,12 +111,12 @@ public class Board {
     public boolean move(int initRow, int initCol, int finalRow, int finalCol, Player player) {
         if ((initRow < 0) ||
                 (initCol < 0) ||
-                (initRow > size - 1) ||
-                (initCol > size - 1) ||
+                (initRow > SIZE - 1) ||
+                (initCol > SIZE - 1) ||
                 (finalRow < 0) ||
                 (finalCol < 0) ||
-                (finalRow > size - 1) ||
-                (finalCol > size - 1) ||
+                (finalRow > SIZE - 1) ||
+                (finalCol > SIZE - 1) ||
                 (checkerBoard[initRow][initCol] == null) ||
                 (checkerBoard[initRow][initCol].getPlayerType() != player.getPlayerType()) ||
                 // Thinks there's something in the final spot when there isn't idk why
@@ -130,8 +130,8 @@ public class Board {
     public int getScore(Player.PlayerType type) {
         int score = 0;
 
-        for (int r = 0; r < size; r++) {
-            for (int c = 0; c < size; c++) {
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
                 if (checkerBoard[r][c].getPlayerType() == type) {
                     score++;
                 }

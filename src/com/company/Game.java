@@ -7,6 +7,7 @@ public class Game {
     Scanner m_scanner = new Scanner(System.in);
     Player m_p1 = new Player(Player.PlayerType.White);
     Player m_p2 = new Player(Player.PlayerType.Black);
+    AIPlayer m_AI = new AIPlayer(Player.PlayerType.Black);
 
     public void init() {
         m_board.resetBoard();
@@ -46,6 +47,12 @@ public class Game {
     public int runOnce(int turnNum) {
         while (whiteMove() == false) {}
         while (blackMove() == false) {}
-        return ++turnNum;
+        return turnNum++;
+    }
+
+    public int runOnceWithAI(int turnNum) {
+        while (whiteMove() == false) {}
+        m_AI.doFirstMove(m_AI.getPlayerType());
+        return turnNum++;
     }
 }

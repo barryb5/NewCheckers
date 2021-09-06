@@ -12,7 +12,7 @@ public class Player {
         return playerType;
     }
 
-    public Player(PlayerType pt) {
-        this.playerType = pt;
+    public Player(PlayerType playerType) {
+        this.playerType = playerType;
     }
 }
